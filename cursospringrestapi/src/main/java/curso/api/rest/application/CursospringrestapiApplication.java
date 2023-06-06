@@ -1,4 +1,4 @@
-package curso.api.rest;
+package curso.api.rest.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

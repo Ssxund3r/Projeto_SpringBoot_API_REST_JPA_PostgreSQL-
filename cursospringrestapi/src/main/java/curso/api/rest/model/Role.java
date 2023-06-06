@@ -21,7 +21,6 @@ public class Role implements GrantedAuthority{
 	
 	private String nomeRole; //Papel, exemplo: ROLE_SECRETARIO ou Role_GERENTE...
 	
-	
 	public void setNomeRole(String nomeRole) {
 		this.nomeRole = nomeRole;
 	}
@@ -42,5 +41,4 @@ public class Role implements GrantedAuthority{
 	public String getAuthority() {
 		return this.nomeRole;
 	}
-
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import curso.api.rest.model.Usuario;
 import curso.api.rest.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
 
 @CrossOrigin(origins = "*")
 @RestController //Arquitetura REST
@@ -32,6 +33,7 @@ public class IndexController {
 	
 	//Serviço RESTful
 	@GetMapping(value = "/{id}", produces = "application/json")
+	@Operation(summary = "Buscar Usuário por ID")
 	public ResponseEntity<Usuario> getusuarioporid(@PathVariable Long id) {
 	    return usuarioRepository.findById(id)
 	            .map(usuario -> ResponseEntity.ok(usuario))
