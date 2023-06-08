@@ -1,4 +1,4 @@
-package curso.api.rest.security;
+package curso.api.rest.filter;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ import curso.api.rest.service.JWTTokenAutenticacaoService;
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 	
 	//Configurando o gerenciador de autenticação
-	protected JWTLoginFilter(String url, 
+	public JWTLoginFilter(String url, 
 			AuthenticationManager authenticationManager) {
 		
 		//Obriga a autenticar a URL
@@ -57,5 +57,4 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		(response, authResult.getName());
 		
 	}
-	
 }
