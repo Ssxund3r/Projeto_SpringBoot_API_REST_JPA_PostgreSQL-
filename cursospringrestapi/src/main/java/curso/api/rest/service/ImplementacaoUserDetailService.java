@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import curso.api.rest.model.Usuario;
 import curso.api.rest.repository.UsuarioRepository;
 
-public class ImplementacaoUserDetailServices implements UserDetailsService{
+public class ImplementacaoUserDetailService implements UserDetailsService{
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;

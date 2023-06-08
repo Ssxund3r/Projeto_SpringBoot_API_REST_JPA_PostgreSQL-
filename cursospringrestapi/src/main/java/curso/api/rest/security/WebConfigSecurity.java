@@ -9,10 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.util.AntPathMatcher;
 
-import curso.api.rest.service.ImplementacaoUserDetailServices;
+import curso.api.rest.service.ImplementacaoUserDetailService;
 
 //Mapeia URL, endereços, autoriza ou bloqueia acesso a URL
 @Configuration
@@ -20,7 +18,7 @@ import curso.api.rest.service.ImplementacaoUserDetailServices;
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	private ImplementacaoUserDetailServices detailServices;
+	private ImplementacaoUserDetailService detailServices;
 	
 	//Configura as solicitações de acesso por Http
 	@Override
