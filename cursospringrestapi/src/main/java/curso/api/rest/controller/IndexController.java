@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import curso.api.rest.model.Usuario;
 import curso.api.rest.repository.UsuarioRepository;
-import io.swagger.v3.oas.annotations.Operation;
 
 @CrossOrigin(origins = "*")
 @RestController //Arquitetura REST
@@ -33,7 +33,6 @@ public class IndexController {
 	
 	//Serviço RESTful
 	@GetMapping(value = "/{id}", produces = "application/json")
-	@Operation(summary = "Buscar Usuário por ID")
 	public ResponseEntity<Usuario> getusuarioporid(@PathVariable Long id) {
 	    return usuarioRepository.findById(id)
 	            .map(usuario -> ResponseEntity.ok(usuario))
@@ -51,6 +50,9 @@ public class IndexController {
 	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario){	
 		usuario.getTelefones().forEach(telefone -> telefone.setUsuario(usuario));		
 		
+		String senhaCriptografada = new BCryptPasswordEncoder()
+			   .encode(usuario.getSenha());
+		usuario.setSenha(senhaCriptografada);
 		Usuario usuarioSalvo = usuarioRepository.save(usuario);
 		
 		return new ResponseEntity<Usuario>(usuarioSalvo, HttpStatus.OK);
@@ -69,6 +71,9 @@ public class IndexController {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
 	    
+	    String senhaCriptografada = new BCryptPasswordEncoder()
+	    	   .encode(usuario.getSenha());
+	    usuario.setSenha(senhaCriptografada);
 	    Usuario usuarioSalvo = usuarioRepository.save(usuario);
 	        
 	    return ResponseEntity.ok(usuarioSalvo);

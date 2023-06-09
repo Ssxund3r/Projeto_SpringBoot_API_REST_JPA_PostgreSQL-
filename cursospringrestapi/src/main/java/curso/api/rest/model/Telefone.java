@@ -4,21 +4,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 @Entity
+@SuppressWarnings("deprecation")
 public class Telefone {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	
 	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "usuario_Id")
+	@org.hibernate.annotations.ForeignKey(name = "usuario_id")
+	@ManyToOne(optional = false)
 	private Usuario usuario;
 	
 	private String numero;

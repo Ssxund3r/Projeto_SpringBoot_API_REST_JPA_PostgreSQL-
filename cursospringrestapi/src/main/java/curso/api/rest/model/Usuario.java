@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,11 +17,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.UniqueConstraint;
+import javax.transaction.Transactional;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
+@Transactional 
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +33,8 @@ public class Usuario implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
+	
+	@Column(unique = true)
 	private String login;
 	
 	private String senha;
@@ -121,36 +127,43 @@ public class Usuario implements UserDetails {
 	}
 	
 	//São os acessos do usuário 
+	@JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		return this.senha;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public String getUsername() {
 		return this.login;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-
+	
+	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
 		return true;

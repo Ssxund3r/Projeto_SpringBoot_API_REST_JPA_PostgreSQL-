@@ -2,23 +2,29 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Projeto Restful</title>
+<meta http-equiv="Refresh" content="0;URL=publico/login.html" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  integrity="$2a$10$TK4Le8nsmtFrb2TC3igUOOHu2gplKJzAFQTND17jgkjCVf9EdfAa2"
   crossorigin="anonymous"></script>
 </head>
 <body>
-	<script>
+	 <script>
 		$(document).ready (
 			function () {
 				$.ajax({
-					url : "https://www.projetojavaweb.com/cursospringrestapi/usuario/",
-					method:"GET"
+					url : "http://localhost:8080/cursospringrestapi/",
+					method:"POST"
 				}).then(function (data, status, info) {
 				});
 			}
 		);
 	</script>
+	<h1>Bem-vindo Projeto Springboot</h1>
+
+	<a href="/cursospringrestapi" class="waves-effect- waves-light btn">Cadastro
+		Pessoa</a> 
 </body>
 </html>
