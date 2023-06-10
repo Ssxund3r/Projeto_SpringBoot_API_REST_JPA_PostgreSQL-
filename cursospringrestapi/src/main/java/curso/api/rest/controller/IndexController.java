@@ -39,6 +39,27 @@ public class IndexController {
 	            .orElse(ResponseEntity.notFound().build());
 	}
 	
+	// Serviço RESTful
+	@GetMapping(value = "/{id}",  produces = "application/json", 
+								  headers = "X-API-Version=v1")
+	public ResponseEntity<Usuario> getusuarioporidv1(@PathVariable
+			                                        (value="id") Long id) {
+			return usuarioRepository.findById(id)
+				.map(usuario -> ResponseEntity.ok(usuario))
+				.orElse(ResponseEntity.notFound().build());
+	}
+	
+	// Serviço RESTful
+	@GetMapping(value = "/{id}", produces = "application/json", 
+						         headers = "X-API-Version=v2")
+	public ResponseEntity<Usuario> getusuarioporidv2(@PathVariable
+											        (value="id") Long id) {
+			return usuarioRepository.findById(id)
+					.map(usuario -> ResponseEntity.ok(usuario))
+					.orElse(ResponseEntity.notFound().build());
+		}
+	
+	
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> listarusuarios(){
 		List<Usuario> usuarios = (List<Usuario>) usuarioRepository.findAll();
@@ -71,9 +92,15 @@ public class IndexController {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
 	    
-	    String senhaCriptografada = new BCryptPasswordEncoder()
-	    	   .encode(usuario.getSenha());
-	    usuario.setSenha(senhaCriptografada);
+	    Usuario usuarioTemp = usuarioRepository.findUserByLogin(usuario.getLogin());
+	    
+	    //Senha diferente 
+	    if(!usuarioTemp.getSenha().equals(usuario.getSenha())) {
+	    	String senhaCriptografada = new BCryptPasswordEncoder()
+	 			   .encode(usuario.getSenha());
+	 		usuario.setSenha(senhaCriptografada);
+	    }
+	    
 	    Usuario usuarioSalvo = usuarioRepository.save(usuario);
 	        
 	    return ResponseEntity.ok(usuarioSalvo);
@@ -99,6 +126,16 @@ public class IndexController {
 		for (int pos = 0; pos < usuario.getTelefones().size(); pos++) {
 			usuario.getTelefones().get(pos).setUsuario(usuario);
 		}
+		
+		Usuario usuarioTemp = usuarioRepository.findUserByLogin(usuario.getLogin());
+		
+		//Senha diferente 
+	    if(!usuarioTemp.getSenha().equals(usuario.getSenha())) {
+	    	String senhaCriptografada = new BCryptPasswordEncoder()
+	 			   .encode(usuario.getSenha());
+	 		usuario.setSenha(senhaCriptografada);
+	    }
+		
 		Usuario usuarioAtualizado = usuarioRepository.save
 				(usuarioRepository.save(usuario));
 
