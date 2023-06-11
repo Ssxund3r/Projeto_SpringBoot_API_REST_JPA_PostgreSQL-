@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,27 +39,6 @@ public class IndexController {
 	            .map(usuario -> ResponseEntity.ok(usuario))
 	            .orElse(ResponseEntity.notFound().build());
 	}
-	
-	// Serviço RESTful
-	@GetMapping(value = "/{id}",  produces = "application/json", 
-								  headers = "X-API-Version=v1")
-	public ResponseEntity<Usuario> getusuarioporidv1(@PathVariable
-			                                        (value="id") Long id) {
-			return usuarioRepository.findById(id)
-				.map(usuario -> ResponseEntity.ok(usuario))
-				.orElse(ResponseEntity.notFound().build());
-	}
-	
-	// Serviço RESTful
-	@GetMapping(value = "/{id}", produces = "application/json", 
-						         headers = "X-API-Version=v2")
-	public ResponseEntity<Usuario> getusuarioporidv2(@PathVariable
-											        (value="id") Long id) {
-			return usuarioRepository.findById(id)
-					.map(usuario -> ResponseEntity.ok(usuario))
-					.orElse(ResponseEntity.notFound().build());
-		}
-	
 	
 	@GetMapping(value = "/", produces = "application/json")
 	public ResponseEntity<List<Usuario>> listarusuarios(){
