@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import curso.api.rest.dto.UsuarioDTO;
 import curso.api.rest.model.Usuario;
 import curso.api.rest.repository.UsuarioRepository;
 
@@ -34,9 +34,9 @@ public class IndexController {
 	
 	//Serviço RESTful
 	@GetMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<Usuario> getusuarioporid(@PathVariable Long id) {
+	public ResponseEntity<UsuarioDTO> getusuarioporid(@PathVariable Long id) {
 	    return usuarioRepository.findById(id)
-	            .map(usuario -> ResponseEntity.ok(usuario))
+	            .map(usuario -> ResponseEntity.ok(new UsuarioDTO(usuario)))
 	            .orElse(ResponseEntity.notFound().build());
 	}
 	

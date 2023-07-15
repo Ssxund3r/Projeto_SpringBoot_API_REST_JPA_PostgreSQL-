@@ -41,6 +41,8 @@ public class Usuario implements UserDetails {
 
 	private String nome;
 	
+	private String cpf;
+	
 	@OneToMany(mappedBy = "usuario", orphanRemoval = true, 
 			cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Telefone> telefones = new ArrayList<Telefone>();
@@ -109,6 +111,14 @@ public class Usuario implements UserDetails {
 	
 	public List<Telefone> getTelefones() {
 		return telefones;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
+	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	@Override

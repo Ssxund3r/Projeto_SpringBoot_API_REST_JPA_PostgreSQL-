@@ -1,7 +1,12 @@
 package curso.api.rest.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
+import org.postgresql.util.PSQLException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +22,10 @@ import curso.api.rest.model.ObjetoErro;
 
 @RestControllerAdvice
 @ControllerAdvice
+@SuppressWarnings("null")
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
 	
+	//Interceptar erro mais comum no projeto
 	@ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, 
@@ -43,4 +50,29 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(objetoErro, headers, status);
 	} 
 	
+	//Tratamento da maioria dos error a nivel de banco de dados.
+	@ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class, 
+		PSQLException.class, SQLException.class})
+	protected ResponseEntity<Object> handleExceptionDataIntegry(Exception ex){
+		String msg = "";
+		
+		if (ex instanceof DataIntegrityViolationException) {
+			msg = ((DataIntegrityViolationException) ex).getCause().getCause().getMessage();
+		} else if (ex instanceof ConstraintViolationException) {
+			msg = ((ConstraintViolationException) ex).getCause().getCause().getMessage();
+		} else if (ex instanceof PSQLException) {
+			msg = ((PSQLException) ex).getCause().getCause().getMessage();
+		} else if (ex instanceof SQLException) {
+			msg = ((SQLException) ex).getCause().getCause().getMessage();
+		} else {
+			msg = ex.getMessage();
+		}
+		
+		ObjetoErro objetoErro = new ObjetoErro();
+		objetoErro.setError(msg);
+		objetoErro.setCode(HttpStatus.INTERNAL_SERVER_ERROR + " ==> " + 
+				HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		return new ResponseEntity<>(objetoErro, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }
